@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fieldlab"
+version = "0.0.1"
+description = "Experiments on flow matching velocity fields"
+requires-python = ">=3.11"
+dependencies = [
+    "torch",
+    "numpy",
+    "matplotlib",
+    "scikit-learn",
+    "tqdm",
+    "jupyter",
+    "ipykernel",
+    "pytest",
+    "nbstripout",
+    "ruff",
+    "mypy",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "I", "UP", "B", "SIM", "N", "RUF", "C4", "PT",
+    "PTH", "TID", "DTZ", "LOG", "G",
+]
+ignore = [
+    "E501",  # line length is handled by ruff format
+    "N803",  # allow math-style uppercase arguments (Sigma, X)
+    "N806",  # allow math-style uppercase locals (A_t, N)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.mypy]
+python_version = "3.11"
+show_error_codes = true
+explicit_package_bases = true
+mypy_path = "src"
+files = ["src", "tests"]
+
+[[tool.mypy.overrides]]
+module = [
+    "sklearn.*",
+    "tqdm.*",
+]
+ignore_missing_imports = true
